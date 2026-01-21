@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sandbox
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-sandbox-simple
+  namespace: sandbox
+spec:
+  selector:
+    matchLabels:
+      app: python-sandbox-simple
+  template:
+    metadata:
+      labels:
+        app: python-sandbox-simple
+    spec:
+      containers:
+      - name: app
+        image: docker.io/library/python-sandbox-simple:latest
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 8009
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
