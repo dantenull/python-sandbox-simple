@@ -21,12 +21,16 @@ def health_check():
 
 class RunCodeData(BaseModel):
     code: str
-    # timeout: int = 60
-    get_result: bool = False
+    get_result: bool = False  # 是否只获取最终结果
 
 
 @app.post('/api/run_code')
 def run_code(request: Request, data: RunCodeData):
+    """
+    运行代码。两种情况：
+    1. 当get_result为真时，返回代码中名为__result__的变量的值，没有则返回最后定义的变量的值。
+    2. 直接返回。
+    """
     code = data.code
     get_result = data.get_result
     timeout = 60
